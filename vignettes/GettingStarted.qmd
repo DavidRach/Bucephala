@@ -1,0 +1,29 @@
+---
+title: "Setting up schedule monitor"
+format: html
+---
+
+Hello
+
+```{r}
+library(Bucephala)
+```
+
+Packages required by the original script (hoping the namespace route avoids the need to call all individually)
+```{r}
+#library(chromote)
+#library(rvest)
+#library(xml2)
+#library(dplyr)
+#library(tidyr)
+#library(ggplot2)
+#library(lubridate)
+#library(stringr)
+```
+
+```{r}
+TodaysDate <- Sys.Date()
+ParentURL <- "https://cibr.umaryland.edu/schedules"
+InstrumentURL <- file.path(ParentURL, "512453#")
+URLPath <- file.path(InstrumentURL, "schedule", "week7", TodaysDate)
+```
