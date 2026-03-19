@@ -22,8 +22,12 @@ Packages required by the original script (hoping the namespace route avoids the 
 ```
 
 ```{r}
-TodaysDate <- Sys.Date()
-ParentURL <- "https://cibr.umaryland.edu/schedules"
-InstrumentURL <- file.path(ParentURL, "512453#")
-URLPath <- file.path(InstrumentURL, "schedule", "week7", TodaysDate)
+#| eval: FALSE
+FolderSetup()
+```
+
+```{r}
+#| eval: FALSE
+Active <- BrowserRun()
+Active$view()
 ```
