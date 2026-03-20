@@ -4,14 +4,43 @@
 \alias{iLabSummaryPlot}
 \title{Returns a instrument summary plot for the particular day}
 \usage{
-iLabSummaryPlot(data)
+iLabSummaryPlot(
+  data,
+  FolderName = "ScheduleMonitor",
+  AlternateDirectory = NULL,
+  StartPlotName = "AmnisZeta",
+  MiddlePlotName = "AuroraZeta",
+  width = 8.5,
+  height = 11,
+  units = "in",
+  dpi = 300,
+  device = "png"
+)
 }
 \arguments{
 \item{data}{TBD}
 
-\item{x}{TBD}
+\item{FolderName}{Default ScheduleMonitor, can switch 
+out as desired}
 
-\item{instruments}{TBD}
+\item{AlternateDirectory}{Default is your Documents folder,
+can switch out if desired}
+
+\item{StartPlotName}{Default "AmnisZeta", rename so plot appears 
+alphabetically first compared to other instruments}
+
+\item{MiddlePlotName}{Default "AuroraZeta", rename so plot appears
+alphabetically middle of the other instrumnents}
+
+\item{width}{plot default 8.5}
+
+\item{height}{plot default 11}
+
+\item{units}{plot default "in"}
+
+\item{dpi}{plot default 300}
+
+\item{device}{"png"}
 }
 \value{
 A summary plot

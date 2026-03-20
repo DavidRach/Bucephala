@@ -19,7 +19,6 @@ FolderSetup()
 Once this is done, proceed to set up a headless-browser session via chromote (make sure to have your phone handy for the 2FA)
 
 ```{r}
-#| eval: FALSE
 Active <- BrowserRun()
 Active$view()
 ```
@@ -41,8 +40,9 @@ AuroraCS <- "512475#" #7
 MACSQuant10 <- "454785#" #8
 Amnis <- "305467#" #9
 
-Code <- c(Canto, LSRII, Aria, Aurora3, Aurora4, Aurora5, AuroraCS, MACSQuant10, Amnis)
 TheInstrument = c("Canto", "LSRII", "Aria", "Aurora3", "Aurora4", "Aurora5", "AuroraCS", "MACSQuant10", "Amnis")
+
+Code <- c(Canto, LSRII, Aria, Aurora3, Aurora4, Aurora5, AuroraCS, MACSQuant10, Amnis)
 
 Data <- data.frame(
   TheInstrument = c("Canto", "LSRII", "Aria", "Aurora3", "Aurora4", "Aurora5", "AuroraCS", "MACSQuant10", "Amnis"),
@@ -53,19 +53,20 @@ Data <- data.frame(
 With the data.frame ready, we can pass it to `BookingRetrieval`, which will parse each instruments page and return a .csv file of the bookings to the data folder.
 
 ```{r}
-BookingRetrieval(data=Data, chromote_session = Active)
+TheData <- BookingRetrieval(data=Data, chromote_session = Active)
 ```
 
 # Plotting the Data
 
-
+Bring in the Combined Data for the Week, pull the instruments, and generate the plots back. 
 ```{r}
-Instrument <- c("Canto", "LSRII", "Aria", "Aurora3", "Aurora4", "Aurora5", "AuroraCS", "MACSQuant10", "Amnis")
+Instrument <- TheData |> dplyr::pull(Instrument) |> unique()
 
 purrr::walk(.f=iLabPlots, .x=Instrument, data=TheData)
 ```
 
+# Plotting Summary Plot
+
 ```{r}
-Instrument <- c("Canto", "LSRII", "Aria", "Aurora3", "Aurora4", "Aurora5", "AuroraCS", "MACSQuant10", "Amnis") 
-data <- TheData
+iLabSummaryPlot(data=TheData)
 ```

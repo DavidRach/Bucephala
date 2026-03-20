@@ -4,12 +4,38 @@
 \alias{iLabPlots}
 \title{Generates the schedule plots in an iLab format}
 \usage{
-iLabPlots(x, data)
+iLabPlots(
+  x,
+  data,
+  FolderName = "ScheduleMonitor",
+  AlternateDirectory = NULL,
+  width = 8.5,
+  height = 11,
+  units = "in",
+  dpi = 300,
+  device = "png"
+)
 }
 \arguments{
-\item{x}{TBD}
+\item{x}{The name of the instrument}
 
-\item{data}{TBD}
+\item{data}{The returned parsed booking data from BookingRetrieval}
+
+\item{FolderName}{Default ScheduleMonitor, can switch 
+out as desired}
+
+\item{AlternateDirectory}{Default is your Documents folder,
+can switch out if desired}
+
+\item{width}{plot default 8.5}
+
+\item{height}{plot default 11}
+
+\item{units}{plot default "in"}
+
+\item{dpi}{plot default 300}
+
+\item{device}{"png"}
 }
 \value{
 A plot for display

@@ -1,8 +1,19 @@
 #' Returns a instrument summary plot for the particular day
 #' 
-#' @param x TBD
 #' @param data TBD
-#' @param instruments TBD
+#' @param FolderName Default ScheduleMonitor, can switch 
+#' out as desired
+#' @param AlternateDirectory Default is your Documents folder,
+#'  can switch out if desired
+#' @param StartPlotName Default "AmnisZeta", rename so plot appears 
+#' alphabetically first compared to other instruments
+#' @param MiddlePlotName Default "AuroraZeta", rename so plot appears
+#' alphabetically middle of the other instrumnents
+#' @param width plot default 8.5
+#' @param height plot default 11
+#' @param units plot default "in"
+#' @param dpi plot default 300
+#' @param device "png"
 #' 
 #' @importFrom dplyr filter mutate
 #' @importFrom tidyr replace_na
@@ -19,10 +30,26 @@
 #' 
 #' A <- 2+2
 #' 
-iLabSummaryPlot <- function(data){
+iLabSummaryPlot <- function(data, FolderName="ScheduleMonitor", AlternateDirectory=NULL,
+  StartPlotName="AmnisZeta", MiddlePlotName="AuroraZeta",
+  width = 8.5, height = 11, units = "in", dpi = 300, device = "png"){
+
+  # Checking for existing images folder in ScheduleMonitor folder
+  FolderPattern <- paste0("^", FolderName, "$")
+  if(!is.null(AlternateDirectory)){(DocumentsPath <- AlternateDirectory)
+    } else {DocumentsPath <- OperatingSystemCheck()}
+  MonitorFolder <- list.files(DocumentsPath, pattern=FolderPattern,
+    full.names=TRUE)
+  if (length(MonitorFolder) == 1){
+    ImagesFolder <- list.files(MonitorFolder, pattern="images",full.names=TRUE)
+    if (length(ImagesFolder) == 1){
+      # Successfully found the images folder
+    } else {stop(FolderName, " images folder not Found")}
+  } else {stop(FolderName, " not Found")}
+
   TodaysDate <- Sys.Date()
-  CurrentDay <- Data |> filter(Date %in% TodaysDate)
-  CurrentDay <- Data |> filter(Date %in% TodaysDate) |> 
+
+  CurrentDay <- data |> filter(Date %in% TodaysDate) |> 
     mutate(User = replace_na(User, "Staff"))
 
   CurrentDay <- CurrentDay |>
@@ -35,7 +62,10 @@ iLabSummaryPlot <- function(data){
 
   instruments <- sort(unique(CurrentDay$Instrument))
   Schedule <- expand.grid(hour = 0:23, instrument = instruments)
-  TheCaption <- Sys.time()
+
+
+  Now <- Sys.time()
+  TheCaption <-  format(Now, "%Y-%m-%d %H:%M")
 
   Calendar <- ggplot() +
     geom_tile(
@@ -58,7 +88,7 @@ iLabSummaryPlot <- function(data){
     geom_hline(yintercept = 9,  color = "blue", linetype = "solid", linewidth = 1) +   # 9 AM
     geom_hline(yintercept = 17, color = "blue", linetype = "solid", linewidth = 1) +  # 5 PM
     geom_hline(
-      yintercept = hour(TheCaption) + minute(TheCaption)/60,
+      yintercept = hour(Now) + minute(Now)/60,
       color = "red", linetype = "dashed", linewidth = 1
     ) +
     theme_bw() +
@@ -92,27 +122,27 @@ iLabSummaryPlot <- function(data){
       )
   }
   
-    filename <- paste0("AmnisZeta", ".png")
-    StorageLocation <- file.path("CurrentSchedule", filename)
+    filename <- paste0(MiddlePlotName, ".png")
+    StorageLocation <- file.path(ImagesFolder, filename)
     ggsave(
     filename = StorageLocation,
     plot = Calendar,
-    width = 8.5,
-    height = 11,
-    units = "in",
-    dpi = 300,
-    device = "png"
+    width = width,
+    height = height,
+    units = units,
+    dpi = dpi,
+    device = device
     )
 
-    filename <- paste0("AuroraZeta", ".png")
-    StorageLocation <- file.path("CurrentSchedule", filename)
+    filename <- paste0(StartPlotName, ".png")
+    StorageLocation <- file.path(ImagesFolder, filename)
     ggsave(
     filename = StorageLocation,
     plot = Calendar,
-    width = 8.5,
-    height = 11,
-    units = "in",
-    dpi = 300,
-    device = "png"
+    width = width,
+    height = height,
+    units = units,
+    dpi = dpi,
+    device = device
     )
 }
