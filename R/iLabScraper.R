@@ -1,4 +1,4 @@
-#' 
+#' Scrapes the retrieved iLab html for individual calendar bookings
 #' 
 #' @param x The iterated in instrument url hash
 #' @param chromote_session The returned chromote session from BrowserRun()
@@ -17,7 +17,6 @@
 #' @importFrom rvest read_html html_node html_nodes
 #' 
 #' @noRd
-#' 
 #' 
 iLabScraper <- function(x, chromote_session, theurl="https://cibr.umaryland.edu/schedules",
  FolderName="ScheduleMonitor", AlternateDirectory=NULL, InstrumentSet){
