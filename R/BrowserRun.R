@@ -9,6 +9,7 @@
 #' @param AlternateDirectory Default is your Documents folder,
 #'  can switch out if desired
 #' @param pattern For # usethis::edit_r_environ(), use THE_USER and THE_PASS
+#' @param PauseInterval Seconds between headless browser steps to allow page to load.
 #' 
 #' @importFrom chromote ChromoteSession
 #' 
@@ -23,7 +24,7 @@
 #' 
 BrowserRun  <- function(theurl="https://cibr.umaryland.edu/schedules",
   instrumenthash="512453#", FolderName="ScheduleMonitor", AlternateDirectory=NULL,
-  pattern=NULL){
+  pattern=NULL, PauseInterval=5){
   
   if(!is.null(pattern)){print("Hello!")}
 
@@ -66,7 +67,7 @@ BrowserRun  <- function(theurl="https://cibr.umaryland.edu/schedules",
 
   # Start Chromote Browser
   Browser$Page$navigate(URLPath)
-  Sys.sleep(3)
+  Sys.sleep(PauseInterval)
   img <- Browser$screenshot(wait_ = TRUE)
   file.rename("screenshot.png", file.path(ScreenshotPath, "00_OpeningScreenshot.png"))
   #Browser$view()
@@ -79,9 +80,9 @@ BrowserRun  <- function(theurl="https://cibr.umaryland.edu/schedules",
   if (LoginButton == TRUE){
     # Renavigate to Page
     Browser$Page$navigate("https://cibr.umaryland.edu/landing/1754")
-    Sys.sleep(3)
+    Sys.sleep(PauseInterval)
     img <- Browser$screenshot(wait_ = TRUE)
-    Sys.sleep(3)
+    Sys.sleep(PauseInterval)
     file.rename("screenshot.png", file.path(ScreenshotPath, "01_AttemptingLogin.png"))
 
     # Press Login
@@ -89,7 +90,7 @@ BrowserRun  <- function(theurl="https://cibr.umaryland.edu/schedules",
       const loginButton = document.querySelector('a.ui.positive.button.login.login_link');
       if (loginButton) loginButton.click();
     ")
-    Sys.sleep(3)
+    Sys.sleep(PauseInterval)
     img <- Browser$screenshot(wait_ = TRUE)
     file.rename("screenshot.png", file.path(ScreenshotPath, "02_PressLogin.png"))
 
@@ -98,7 +99,7 @@ BrowserRun  <- function(theurl="https://cibr.umaryland.edu/schedules",
       const umbLink = document.querySelector('a[href=\"/account/saml/umb\"]');
       if (umbLink) umbLink.click();
     ") # May Need To Generalize UMB In The Future
-    Sys.sleep(5)
+    Sys.sleep(PauseInterval)
     img <- Browser$screenshot(wait_ = TRUE)
     file.rename("screenshot.png", file.path(ScreenshotPath, "03_UMD_Duo.png"))
 
@@ -107,7 +108,7 @@ BrowserRun  <- function(theurl="https://cibr.umaryland.edu/schedules",
       "document.querySelector('#username').value = '%s';",
       Sys.getenv('THE_USER') # Need to set generalized keyword later
     ))
-    Sys.sleep(3)
+    Sys.sleep(PauseInterval)
     img <- Browser$screenshot(wait_ = TRUE)
     file.rename("screenshot.png", file.path(ScreenshotPath, "04_User.png"))
 
@@ -115,11 +116,11 @@ BrowserRun  <- function(theurl="https://cibr.umaryland.edu/schedules",
       "document.querySelector('#password').value = '%s';",
       Sys.getenv('THE_PASS')  # Need to set generalized keyword later
     ))
-    Sys.sleep(3)
+    Sys.sleep(PauseInterval)
     img <- Browser$screenshot(wait_ = TRUE)
     file.rename("screenshot.png", file.path(ScreenshotPath, "05_LoginReady.png"))
 
-    Sys.sleep(5)
+    Sys.sleep(PauseInterval)
     Browser$Runtime$evaluate("
       const btn = document.querySelector('button[type=submit], input[type=submit]');
       if (btn) {
@@ -129,7 +130,7 @@ BrowserRun  <- function(theurl="https://cibr.umaryland.edu/schedules",
         if (form) form.submit();
       }
     ")
-    Sys.sleep(3)
+    Sys.sleep(PauseInterval)
     img <- Browser$screenshot(wait_ = TRUE)
     file.rename("screenshot.png", file.path(ScreenshotPath, "06_PostCredentials.png"))
 
@@ -139,7 +140,7 @@ BrowserRun  <- function(theurl="https://cibr.umaryland.edu/schedules",
       !!document.querySelector('a.ui.positive.button.login.login_link')
     ")$result$value
 
-     Sys.sleep(5) 
+     Sys.sleep(PauseInterval) 
 
     if (LoginButton == FALSE){
       Browser$Runtime$evaluate("
@@ -151,7 +152,7 @@ BrowserRun  <- function(theurl="https://cibr.umaryland.edu/schedules",
         console.log('Other Options link not found.');
       }
     ") # Other Options
-    Sys.sleep(5) 
+    Sys.sleep(PauseInterval) 
     img <- Browser$screenshot(wait_ = TRUE)
     file.rename("screenshot.png", file.path(ScreenshotPath, "07_OtherOptions.png"))
       
@@ -164,7 +165,7 @@ BrowserRun  <- function(theurl="https://cibr.umaryland.edu/schedules",
         console.log('Phone call option not found.');
       }
     ") # Select Phone Call
-    Sys.sleep(15) # Shoot, where is my phone?!?!?!
+    Sys.sleep(PauseInterval+10) # Shoot, where is my phone?!?!?!
     img <- Browser$screenshot(wait_ = TRUE)
     file.rename("screenshot.png", file.path(ScreenshotPath, "08_PhoneUte.png"))
       
@@ -177,14 +178,14 @@ BrowserRun  <- function(theurl="https://cibr.umaryland.edu/schedules",
         console.log('Trust browser button not found.');
       }
     ")
-    Sys.sleep(5)
+    Sys.sleep(PauseInterval)
     img <- Browser$screenshot(wait_ = TRUE)
     file.rename("screenshot.png", file.path(ScreenshotPath, "09_YesTrust.png"))
     } # End of 2FA
   } # End of Initial Login
 
   Browser$Page$navigate(URLPath)
-  Sys.sleep(3)
+  Sys.sleep(PauseInterval)
   img <- Browser$screenshot(wait_ = TRUE)
   file.rename("screenshot.png", file.path(ScreenshotPath, "10_PostLoginScreenshot.png"))
   #Browser$view()

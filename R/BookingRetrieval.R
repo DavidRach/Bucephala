@@ -9,6 +9,7 @@
 #' out as desired
 #' @param AlternateDirectory Default is your Documents folder,
 #'  can switch out if desired
+#' @param PauseInterval Seconds between headless browser steps to allow page to load.
 #' 
 #' @importFrom dplyr pull bind_rows
 #' @importFrom purrr map imap set_names compact
@@ -24,7 +25,7 @@
 #' 
 BookingRetrieval <- function(data, chromote_session,
  theurl="https://cibr.umaryland.edu/schedules",
- FolderName="ScheduleMonitor", AlternateDirectory=NULL){
+ FolderName="ScheduleMonitor", AlternateDirectory=NULL, PauseInterval=5){
 
   # Checking for data folder within ScheduleMonitor folder
   FolderPattern <- paste0("^", FolderName, "$")
@@ -44,7 +45,7 @@ BookingRetrieval <- function(data, chromote_session,
   CompleteDataset <- purrr::map(.f=iLabScraper, .x=Instrument,
    chromote_session=chromote_session, theurl=theurl,
    FolderName=FolderName, AlternateDirectory=AlternateDirectory,
-   InstrumentSet=data)
+   InstrumentSet=data, PauseInterval=PauseInterval)
 
   Named <- purrr::set_names(CompleteDataset, TheInstrument)
 

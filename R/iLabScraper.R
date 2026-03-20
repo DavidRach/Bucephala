@@ -10,6 +10,7 @@
 #'  can switch out if desired
 #' @param InstrumentSet data.frame with "TheInstrument" column, containing the
 #' instrument names, followed by a "Code" column with the instrument url hash
+#' @param PauseInterval Seconds between headless browser steps to allow page to load.
 #' 
 #' @importFrom lubridate wday
 #' @importFrom dplyr mutate bind_rows filter pull
@@ -19,7 +20,7 @@
 #' @noRd
 #' 
 iLabScraper <- function(x, chromote_session, theurl="https://cibr.umaryland.edu/schedules",
- FolderName="ScheduleMonitor", AlternateDirectory=NULL, InstrumentSet){
+ FolderName="ScheduleMonitor", AlternateDirectory=NULL, InstrumentSet, PauseInterval){
 
   # Checking for Existing Screenshots in ScheduleMonitor folder
   FolderPattern <- paste0("^", FolderName, "$")
@@ -41,7 +42,7 @@ iLabScraper <- function(x, chromote_session, theurl="https://cibr.umaryland.edu/
   URLPath <- file.path(InstrumentURL, "schedule", "week7", TodaysDate)
   InstrumentName <- InstrumentSet |> filter(Code %in% x) |> pull(TheInstrument)
   chromote_session$Page$navigate(URLPath)
-  Sys.sleep(3)
+  Sys.sleep(PauseInterval)
   img <- chromote_session$screenshot(wait_ = TRUE)
   ScreenshotName <- paste0(InstrumentName, ".png") 
   file.rename("screenshot.png", file.path(ScreenshotFolder, ScreenshotName))

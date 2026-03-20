@@ -9,7 +9,8 @@ BookingRetrieval(
   chromote_session,
   theurl = "https://cibr.umaryland.edu/schedules",
   FolderName = "ScheduleMonitor",
-  AlternateDirectory = NULL
+  AlternateDirectory = NULL,
+  PauseInterval = 5
 )
 }
 \arguments{
@@ -26,6 +27,8 @@ out as desired}
 
 \item{AlternateDirectory}{Default is your Documents folder,
 can switch out if desired}
+
+\item{PauseInterval}{Seconds between headless browser steps to allow page to load.}
 }
 \value{
 CSV files to the data folder, and a data.frame to R.

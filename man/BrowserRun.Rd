@@ -9,7 +9,8 @@ BrowserRun(
   instrumenthash = "512453#",
   FolderName = "ScheduleMonitor",
   AlternateDirectory = NULL,
-  pattern = NULL
+  pattern = NULL,
+  PauseInterval = 5
 )
 }
 \arguments{
@@ -26,6 +27,8 @@ out as desired}
 can switch out if desired}
 
 \item{pattern}{For # usethis::edit_r_environ(), use THE_USER and THE_PASS}
+
+\item{PauseInterval}{Seconds between headless browser steps to allow page to load.}
 }
 \value{
 An active chromote session post login
