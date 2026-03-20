@@ -1,22 +1,23 @@
-#'
+#' Internal for Calendar Parse
 #' 
 #' @param x TBD
 #' @param InstrumentName TBD
 #' @param DayWeek TBD
 #' 
-#' @importFrom lubridate days parse_date_time
-#' @importFrom stringr str_split
+#' @importFrom rvest html_node html_text html_attr
+#' @importFrom stringr str_remove str_split
+#' @importFrom lubridate parse_date_time days 
 #' 
 #' @noRd
 #' 
 #' 
 DataParse <- function(x, InstrumentName, DayWeek){
 
-User <- x %>% html_node(".owner a") %>% html_text(trim = TRUE)
-Email <- x %>% html_node(".owner a") %>% html_attr("href") %>% stringr::str_remove("^mailto:")
-Type <- x %>% html_node(".type") %>% html_text(trim = TRUE)
+User <- x |> html_node(".owner a") |> html_text(trim = TRUE)
+Email <- x |> html_node(".owner a") |> html_attr("href") |> str_remove("^mailto:")
+Type <- x |> html_node(".type") |> html_text(trim = TRUE)
 Type <- gsub(" Usage", "", Type)
-Timeslot <- x %>% html_node(".dhx_title") %>% html_text(trim = TRUE)
+Timeslot <- x |> html_node(".dhx_title") |> html_text(trim = TRUE)
 
 times <- str_split(Timeslot, " - ", simplify = TRUE)
 Start <- times[1]

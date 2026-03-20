@@ -24,6 +24,8 @@
 BrowserRun  <- function(theurl="https://cibr.umaryland.edu/schedules",
   instrumenthash="512453#", FolderName="ScheduleMonitor", AlternateDirectory=NULL,
   pattern=NULL){
+  
+  if(!is.null(pattern)){print("Hello!")}
 
   # Checking for Existing Cookies in ScheduleMonitor folder
   FolderPattern <- paste0("^", FolderName, "$")
@@ -116,6 +118,8 @@ BrowserRun  <- function(theurl="https://cibr.umaryland.edu/schedules",
     Sys.sleep(3)
     img <- Browser$screenshot(wait_ = TRUE)
     file.rename("screenshot.png", file.path(ScreenshotPath, "05_LoginReady.png"))
+
+    Sys.sleep(5)
     Browser$Runtime$evaluate("
       const btn = document.querySelector('button[type=submit], input[type=submit]');
       if (btn) {

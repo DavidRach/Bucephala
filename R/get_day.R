@@ -1,6 +1,15 @@
+#' Internal for Calendar Parse
+#' 
+#' @param node What is being passed
+#' 
+#' @importFrom stringr str_match
+#' @importFrom rvest html_attr
+#' 
+#' @noRd
+#' 
 get_day <- function(node) {
   style <- html_attr(node, "style")
-  m <- stringr::str_match(style, "left:\\s*(\\d+\\.?\\d*)px")
+  m <- str_match(style, "left:\\s*(\\d+\\.?\\d*)px")
   left_px <- as.numeric(m[,2])
   
   day <- names(DayMap)[

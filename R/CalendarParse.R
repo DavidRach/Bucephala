@@ -1,8 +1,11 @@
 
-#'
-#' @param x TBD
-#' @param InstrumentName TBD
+#' Internal for iLab Scraper, processes the individual html returns
+#' for relavent booking information
 #' 
+#' @param x The individual html blob I think
+#' @param InstrumentName The iterated in Instrument Name
+#' 
+#' @importFrom rvest html_nodes
 #' @importFrom purrr map
 #' @importFrom dplyr bind_rows
 #' 
@@ -11,7 +14,7 @@
 #' 
 CalendarParse <- function(x, InstrumentName){
 
-  DayWeek <- get_day(x)
+  DayWeek <- get_day(x) # Our Internal
 
   Reservations <- x |> html_nodes(".dhx_cal_event")
 
