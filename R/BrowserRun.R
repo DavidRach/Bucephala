@@ -61,7 +61,7 @@ BrowserRun  <- function(theurl="https://cibr.umaryland.edu/schedules",
       for (c in Cookies$cookies){
         Browser$Network$setCookie(name = c$name, value = c$value,
           domain = c$domain, path = c$path, secure = c$secure,
-          httpOnly = c$httpOnly)
+          httpOnly = c$httpOnly, expires=c$expires, sameSite=c$sameSite)
         }
     }
 

@@ -3,6 +3,7 @@
 export(BookingRetrieval)
 export(BrowserRun)
 export(FolderSetup)
+export(RaspberryPatch)
 export(iLabPlots)
 export(iLabSummaryPlot)
 importFrom(chromote,ChromoteSession)
