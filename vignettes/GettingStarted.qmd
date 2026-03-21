@@ -16,6 +16,19 @@ If this is your first time getting setup, go ahead and create your associated st
 FolderSetup()
 ```
 
+# Set up Login Credentials
+
+```{r}
+UsernameSet()
+```
+
+```{r}
+PasswordSet()
+```
+
+
+# Start Session
+
 Once this is done, proceed to set up a headless-browser session via chromote (make sure to have your phone handy for the 2FA)
 
 ```{r}

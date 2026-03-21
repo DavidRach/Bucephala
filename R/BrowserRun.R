@@ -12,6 +12,7 @@
 #' @param PauseInterval Seconds between headless browser steps to allow page to load.
 #' 
 #' @importFrom chromote ChromoteSession
+#' @importFrom keyring key_get
 #' 
 #' @return An active chromote session post login
 #' 
@@ -106,7 +107,7 @@ BrowserRun  <- function(theurl="https://cibr.umaryland.edu/schedules",
     # Loging In
     Browser$Runtime$evaluate(sprintf(
       "document.querySelector('#username').value = '%s';",
-      Sys.getenv('THE_USER') # Need to set generalized keyword later
+      key_get("THE_USER") 
     ))
     Sys.sleep(PauseInterval)
     img <- Browser$screenshot(wait_ = TRUE)
@@ -114,7 +115,7 @@ BrowserRun  <- function(theurl="https://cibr.umaryland.edu/schedules",
 
     Browser$Runtime$evaluate(sprintf(
       "document.querySelector('#password').value = '%s';",
-      Sys.getenv('THE_PASS')  # Need to set generalized keyword later
+      key_get("THE_PASS")
     ))
     Sys.sleep(PauseInterval)
     img <- Browser$screenshot(wait_ = TRUE)
