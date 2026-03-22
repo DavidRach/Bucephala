@@ -19,11 +19,13 @@ FolderSetup()
 # Set up Login Credentials
 
 ```{r}
+#| eval: FALSE
 UsernameSet()
 # UsernameSet(KeyringIgnore=TRUE)
 ```
 
 ```{r}
+#| eval: FALSE
 PasswordSet()
 # PasswordSet(KeyringIgnore=TRUE)
 ```
@@ -34,6 +36,7 @@ PasswordSet()
 Once this is done, proceed to set up a headless-browser session via chromote (make sure to have your phone handy for the 2FA)
 
 ```{r}
+#| eval: FALSE
 Active <- BrowserRun()
 Active$view()
 ```
@@ -68,6 +71,7 @@ Data <- data.frame(
 With the data.frame ready, we can pass it to `BookingRetrieval`, which will parse each instruments page and return a .csv file of the bookings to the data folder.
 
 ```{r}
+#| eval: FALSE
 TheData <- BookingRetrieval(data=Data, chromote_session = Active)
 ```
 
@@ -75,6 +79,7 @@ TheData <- BookingRetrieval(data=Data, chromote_session = Active)
 
 Bring in the Combined Data for the Week, pull the instruments, and generate the plots back. 
 ```{r}
+#| eval: FALSE
 Instrument <- TheData |> dplyr::pull(Instrument) |> unique()
 
 purrr::walk(.f=iLabPlots, .x=Instrument, data=TheData)
@@ -83,5 +88,11 @@ purrr::walk(.f=iLabPlots, .x=Instrument, data=TheData)
 # Plotting Summary Plot
 
 ```{r}
+#| eval: FALSE
 iLabSummaryPlot(data=TheData)
+```
+
+
+```{r}
+sessionInfo()
 ```

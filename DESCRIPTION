@@ -10,17 +10,27 @@ Description:
   various instruments, permiting visualizing on a separate monitor, as well tracking changes in the
   schedule with time. It is very much in early development, subject to my free time, and should not
   be used by any sane individual in its current form. 
-License: AGPL (>= 3)
+License: AGPL (>= 3) | LICENSE
 Encoding: UTF-8
 LazyData: FALSE
 URL: https://davidrach.github.io/Bucephala/
 BugReports: https://github.com/DavidRach/Bucephala/issues
 RoxygenNote: 7.3.3
 Imports: 
-    dplyr
+    chromote,
+    dplyr,
+    ggplot2,
+    keyring,
+    lubridate,
+    purrr,
+    rvest,
+    stringr,
+    tidyr,
+    utils
 Depends: R (>= 4.5.0)
 Suggests: 
     BiocStyle,
+    knitr,
     testthat (>= 3.0.0),
     vdiffr,
     withr
