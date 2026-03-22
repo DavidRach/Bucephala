@@ -1,12 +1,12 @@
 #' Uses the keyring package to set your username credentials
 #' 
-#' @param KeyringIgnore If TRUE, proceeds with storing credentials
-#'   in environment variables when no secure keychain is available. 
-#'   Default is FALSE.
+#' @param KeyringIgnore Default FALSE, set to TRUE to proceed with
+#'  storing credentials in default env when secure keychain setup
+#'  is still incomplete (can occur on some Linux OS)
 #' 
 #' @importFrom keyring key_set
 #' 
-#' @return Securely stores username on your local system
+#' @return Stores password for future use. 
 #' 
 #' @export
 #' 
@@ -16,19 +16,19 @@
 #' 
 UsernameSet <- function(KeyringIgnore = FALSE){
   check <- KeyringCheck(KeyringIgnore = KeyringIgnore)
-  if(!isTRUE(check)) return(invisible(NULL))
-  key_set(service = "Bucephala", username = "THE_USER")
+  if(check == FALSE){return(invisible(NULL))}
+  key_set("THE_USER")
 }
 
 #' Uses the keyring package to set your password credentials
 #' 
-#' @param KeyringIgnore If TRUE, proceeds with storing credentials
-#'   in environment variables when no secure keychain is available. 
-#'   Default is FALSE.
+#' @param KeyringIgnore Default FALSE, set to TRUE to proceed with
+#'  storing credentials in default env when secure keychain setup
+#'  is still incomplete (can occur on some Linux OS)
 #' 
 #' @importFrom keyring key_set
 #' 
-#' @return Securely stores password on your local system
+#' @return Stores password for future use. 
 #' 
 #' @export
 #' 
@@ -38,51 +38,51 @@ UsernameSet <- function(KeyringIgnore = FALSE){
 #' 
 PasswordSet <- function(KeyringIgnore = FALSE){
   check <- KeyringCheck(KeyringIgnore = KeyringIgnore)
-  if(!isTRUE(check)) return(invisible(NULL))
-  key_set(service = "Bucephala", username = "THE_PASS")
+  if(check == FALSE){return(invisible(NULL))}
+  key_set("THE_PASS")
 }
 
-#' Check keyring backend security
+#' Check whether keyring is correctly set up. 
 #' 
-#' Internal helper that checks whether a secure keychain is available
-#' and warns the user if falling back to the insecure env backend.
+#' Should work for Windows/MacOS, Linux can be configured correctly, 
+#' but may require manual intervention. Provides heads-up before
+#' proceeding to default env option. 
 #' 
-#' @param KeyringIgnore If TRUE, proceeds with storing credentials
-#'   in environment variables when no secure keychain is available. 
-#'   Default is FALSE.
+#' @param KeyringIgnore Ignores the keyring check, proceeds with the
+#' use of the env variable
 #' 
 #' @importFrom keyring default_backend
 #' 
-#' @return TRUE if it is safe to proceed, FALSE otherwise
+#' @return TRUE if keyring is setup or bypassed, otherwise false
 #' 
 #' @keywords internal
 #' 
 KeyringCheck <- function(KeyringIgnore = FALSE) {
   
-  if (.Platform$OS.type == "unix" && !grepl("darwin", R.version$os)) {
-    options(keyring_backend = "file")
-  }
+  OperatingSystem <- Sys.info()["sysname"]
   
+  if (OperatingSystem == "Linux"){
+    options(keyring_backend = "env")
+  }
+
   backend <- tryCatch(
-    keyring::default_backend(),
+    default_backend(),
     error = function(e) NULL
   )
   
   if (is.null(backend) || inherits(backend, "backend_env")) {
-    if (!isTRUE(KeyringIgnore)) {
-      warning(
-        "No secure keychain found on this system. When this is the case ",
-        "secrets will be stored in environment variables only. Consider ",
-        "installing a keychain manager:\n",
-        "For macOS/Windows: should work automatically, let us know otherwise! \n",
-        "For Linux: install gnome-keyring or libsecret, otherwise ",
-        "set the KeyringIgnore argument to TRUE to proceed using ",
-        "environment variables only",
+
+  if (KeyringIgnore == FALSE){
+    warning(
+        "No secure keychain configured for this system. \n",
+        "Defaulting to keyring_backend = `env` \n",
+        "Attempt to fix, or proceed with env option \n",
+        "by setting argument KeyringIgnore = TRUE",
         call. = FALSE
       )
-      return(FALSE)
-    }
   }
-  
-  return(TRUE)
+    
+    if (KeyringIgnore == TRUE){return(TRUE)
+    } else {return(FALSE)}
+  } else {return(TRUE)}
 }

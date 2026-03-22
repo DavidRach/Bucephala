@@ -2,20 +2,20 @@
 % Please edit documentation in R/PasswordSet.R
 \name{KeyringCheck}
 \alias{KeyringCheck}
-\title{Check keyring backend security}
+\title{Check whether keyring is correctly set up.}
 \usage{
 KeyringCheck(KeyringIgnore = FALSE)
 }
 \arguments{
-\item{KeyringIgnore}{If TRUE, proceeds with storing credentials
-in environment variables when no secure keychain is available. 
-Default is FALSE.}
+\item{KeyringIgnore}{Ignores the keyring check, proceeds with the
+use of the env variable}
 }
 \value{
-TRUE if it is safe to proceed, FALSE otherwise
+TRUE if keyring is setup or bypassed, otherwise false
 }
 \description{
-Internal helper that checks whether a secure keychain is available
-and warns the user if falling back to the insecure env backend.
+Should work for Windows/MacOS, Linux can be configured correctly, 
+but may require manual intervention. Provides heads-up before
+proceeding to default env option.
 }
 \keyword{internal}

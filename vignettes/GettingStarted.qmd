@@ -20,10 +20,12 @@ FolderSetup()
 
 ```{r}
 UsernameSet()
+# UsernameSet(KeyringIgnore=TRUE)
 ```
 
 ```{r}
 PasswordSet()
+# PasswordSet(KeyringIgnore=TRUE)
 ```
 
 

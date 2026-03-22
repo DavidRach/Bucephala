@@ -7,12 +7,12 @@
 PasswordSet(KeyringIgnore = FALSE)
 }
 \arguments{
-\item{KeyringIgnore}{If TRUE, proceeds with storing credentials
-in environment variables when no secure keychain is available. 
-Default is FALSE.}
+\item{KeyringIgnore}{Default FALSE, set to TRUE to proceed with
+storing credentials in default env when secure keychain setup
+is still incomplete (can occur on some Linux OS)}
 }
 \value{
-Securely stores password on your local system
+Stores password for future use.
 }
 \description{
 Uses the keyring package to set your password credentials
