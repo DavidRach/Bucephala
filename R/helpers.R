@@ -1,8 +1,3 @@
-InstrumentSet <- data.frame(TheInstrument=c("Canto", "LSRII",
-  "Aria", "Aurora3", "Aurora4", "Aurora5", "AuroraCS", "MACSQuant10", "Amnis"),
-  Code=c("282295#", "282294#", "282292#", "349299#", "456489#", "512453#",
-  "512475#", "454785#", "305467#"))
-
 DayOffset <- c(
   Sunday    = 0,
   Monday    = 1,

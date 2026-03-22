@@ -1,6 +1,6 @@
 #' Internal for Calendar Parse
 #' 
-#' @param node What is being passed
+#' @param node The entry being passed in
 #' 
 #' @importFrom stringr str_match
 #' @importFrom rvest html_attr
